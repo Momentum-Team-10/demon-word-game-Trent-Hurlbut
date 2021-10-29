@@ -91,9 +91,9 @@ def demon_word_game(file):
                 for i in range(len(word_list[0])):
                     if word_list[0][i] == guess:
                         blanks_list[i] = guess
-                
+
                 print(word_list)
-                
+
                 if guess not in word_list[0]:
                     guessed_letter_list.append(guess)
                     incorrect_correct_guess_counter += 1
@@ -168,29 +168,27 @@ def guess_received_reference_segmented(letter, reference, length):
     word_counter = 0
     max_count = 0
 
+    length_list = [word for word in reference if len(word) == length]
     new_reference_list = []
 
     for i in range(length):
-        for word in reference:
-            if len(word) == length:
-                if word[i] == letter:
-                    word_counter += 1
-                if word_counter >= max_count:
-                    max_count = word_counter
-                    index_position = i
-        word_counter = 0
-
-    for word in reference:
-        if len(word) == length:
-            if letter not in word:
+        for word in length_list:
+            if word[i] == letter:
                 word_counter += 1
             if word_counter >= max_count:
-                new_reference_list.append(word)
-            else:
-                for word in reference:
-                    if len(word) == length:
-                        if word[index_position] == letter:
-                            new_reference_list.append(word)
+                max_count = word_counter
+                index_position = i
+        word_counter = 0
+
+    for word in length_list:
+        if letter not in word:
+            word_counter += 1
+        if word_counter >= max_count:
+            new_reference_list.append(word)
+        else:
+            for word in length_list:
+                if word[index_position] == letter:
+                    new_reference_list.append(word)
     
     return new_reference_list
 
