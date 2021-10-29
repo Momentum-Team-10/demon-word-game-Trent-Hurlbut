@@ -7,32 +7,35 @@ which corresponds, in length, to the amount of blanks shown. The computer is try
 their guesses by drawing from the largest pool of words that follows the pattern of the user's
 input. A spooky twist on the traditional mystery word game! The user gets 8 guesses."""
 
+
 def demon_word_game(file):
 
     """This function first calls generate_random_blanks_list which generates a random list of blanks that
     represents a word-length this user must try to pin the computer down on."""
 
     # The user is welcomed to the game.
-    print('*************************************************************************')
-    print('*      .-._                                                   _,-,      *')
-    print('*       `._`-._                                           _,-\'_,\'       *')
-    print('*          `._ `-._                                   _,-\' _,\'          *')
-    print('*             `._  `-._        __.-----.__        _,-\'  _,\'             *')
+    print("*************************************************************************")
+    print("*      .-._                                                   _,-,      *")
+    print("*       `._`-._                                           _,-'_,'       *")
+    print("*          `._ `-._                                   _,-' _,'          *")
+    print("*             `._  `-._        __.-----.__        _,-'  _,'             *")
     print('*                `._   `#==="""           """===#\'   _,\'                *')
-    print('*                   `._/)  ._               _.  (\_,\'                   *')
-    print('*                    )*\'     **.__     __.**     \'*(                    *')
+    print("*                   `._/)  ._               _.  (\_,'                   *")
+    print("*                    )*'     **.__     __.**     '*(                    *")
     print('*                    #  .==..__  ""   ""  __..==,  #                    *')
     print('*                    #   `"._(_).       .(_)_."\'   #                    *')
-    print('*************************************************************************')
-
-
+    print("*************************************************************************")
 
     print(
         "WELCOME TO THE MYSTERY WORD GAME: DEMON EDITION! In this game, you will try to pin down the demon by guessing letters with the goal of completing a word!"
     )
     print("Correctly complete the word, and you will win!")
-    print("Your letter submissions will need to be in lowercase. YOU MAY NEED TO GUESS THE SAME LETTER TWICE!")
+    print(
+        "Your letter submissions will need to be in lowercase. YOU MAY NEED TO GUESS THE SAME LETTER TWICE!"
+    )
     print("At any time, type QUIT to exit.")
+    print(("*******************************************************"))
+    print(("*******************************************************"))
 
     with open(file) as text:
         content = text.read()
@@ -78,33 +81,108 @@ def demon_word_game(file):
             or guess in string.punctuation
             or guess in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
         ):
+            print(("*********************************************"))
             print("Ooooooh... I'm so sorry that was not a letter.")
+            print(("*********************************************"))
         else:
             # If the user guessed a letter correctly, the blanks list is updated with that letter at corresponding
             # indices.
             if guess.isupper() == True:
+                print(("*************************************"))
                 print("Please submit a letter in lower-case.")
+                print(("*************************************"))
             else:
-                length_list = guess_received_reference_segmented(guess, length_list, len(blanks_list))
+                length_list = guess_received_reference_segmented(
+                    guess, length_list, len(blanks_list)
+                )
                 if length_list[-1] == len(blanks_list):
                     guessed_letter_list.append(guess)
                     incorrect_correct_guess_counter += 1
+                    print(
+                        (
+                            "************************************************************************************************"
+                        )
+                    )
                     print(
                         f"Shucks! Not in the word! Here's what you know about the word so far: {blanks_list}"
                     )
                     print(f"Here are the letters you've so far: {guessed_letter_list}")
                     print(
-                        f"You have {8 - incorrect_correct_guess_counter} guesses left."
+                        f"If you make {8 - incorrect_correct_guess_counter} more incorrect guesses, the word demon wins."
                     )
+                    print(
+                        (
+                            "************************************************************************************************"
+                        )
+                    )
+                    print(length_list[-1])
                     length_list.pop()
                 else:
-                    blanks_list[length_list[-1]] = guess
-                    guessed_letter_list.append(guess)
-                    print(
-                        f"Nice Work! You guessed correctly! Here's what you know about the word so far: {blanks_list}"
+                    if guess in guessed_letter_list:
+                        if blanks_list[length_list[-1]] == "_":
+                            blanks_list[length_list[-1]] = guess
+                            guessed_letter_list.append(guess)
+                            print(
+                                "************************************************************************************************"
+                            )
+                            print(
+                                f"Nice Work! You guessed correctly! Here's what you know about the word so far: {blanks_list}"
+                            )
+                            print(
+                                f"Here are the letters you've so far: {guessed_letter_list}"
+                            )
+                            print(
+                                "************************************************************************************************"
+                            )
+                            print(length_list[-1])
+                            length_list.pop()
+                        else:
+                            incorrect_correct_guess_counter += 1
+                            print(
+                                "************************************************************************************************"
+                            )
+                            print(
+                                f"Shucks! That didn't narrow down the field! Here's what you know about the word so far: {blanks_list}"
+                            )
+                            print(
+                                f"Here are the letters you've so far: {guessed_letter_list}"
+                            )
+                            print(
+                                f"If you make {8 - incorrect_correct_guess_counter} more incorrect guesses, the word demon wins."
+                            )
+                            print(
+                                "************************************************************************************************"
+                            )
+                            print(length_list[-1])
+                            length_list.pop()
+                    else:
+                        blanks_list[length_list[-1]] = guess
+                        guessed_letter_list.append(guess)
+                        print(
+                            "************************************************************************************************"
                         )
-                    print(f"Here are the letters you've so far: {guessed_letter_list}")
-                    length_list.pop()
+                        print(
+                            f"Nice Work! You guessed correctly! Here's what you know about the word so far: {blanks_list}"
+                        )
+                        print(
+                            f"Here are the letters you've so far: {guessed_letter_list}"
+                        )
+                        print(
+                            "************************************************************************************************"
+                        )
+                        print(length_list[-1])
+                        length_list.pop()
+
+    if user_quit == True:
+        print("Thanks for playing!")
+    elif "_" not in blanks_list:
+        print(("*******************************************************"))
+        print("Congratulations! You've trapped the word demon!")
+        print(("*******************************************************"))
+    else:
+        print(("*******************************************************"))
+        print("Bummer!! You ran out of guesses!")
+        print(("*******************************************************"))
 
 
 def difficulty_selection():
@@ -131,26 +209,25 @@ def generate_word_length(difficulty):
     to lowercase, creates a list where each word is an index, and selects a random
     word from the list."""
 
-
-
     if difficulty == "QUIT":
         print("Thanks for playing!")
         quit()
     elif difficulty == "EASY":
         easy_list = []
         for idx in range(random.randint(4, 6)):
-            easy_list.append("_")    
+            easy_list.append("_")
         return easy_list
     elif difficulty == "NORMAL":
         normal_list = []
         for idx in range(random.randint(6, 8)):
-            normal_list.append("_")    
+            normal_list.append("_")
         return normal_list
     elif difficulty == "HARD":
         hard_list = []
         for idx in range(random.randint(8, 10)):
-            hard_list.append("_")    
+            hard_list.append("_")
         return hard_list
+
 
 def guess_received_reference_segmented(letter, reference, length):
 
@@ -171,14 +248,13 @@ def guess_received_reference_segmented(letter, reference, length):
                 if word[i] == letter:
                     index_at_dictionary[i].append(word)
 
-    
-    
-    result = index_at_dictionary[max(index_at_dictionary, key = index_at_dictionary.get)]
-    index_at_number = int(max(index_at_dictionary, key = index_at_dictionary.get))
+    result = index_at_dictionary[max(index_at_dictionary, key=index_at_dictionary.get)]
+    index_at_number = int(max(index_at_dictionary, key=index_at_dictionary.get))
 
     result.append(index_at_number)
 
     return result
+
 
 if __name__ == "__main__":
     import argparse
@@ -196,17 +272,3 @@ if __name__ == "__main__":
     else:
         print(f"{file} does not exist!")
         exit(1)
-
-"""print(
-                        f"Nice Work! You guessed correctly! Here's what you know about the word so far: {blanks_list}"
-                    )
-print(f"Here are the letters you've so far: {guessed_letter_list}")
-print(
-                        f"You have {8 - incorrect_correct_guess_counter} guesses left."
-                    )
-print(
-                        f"Shucks! Not in the word! Here's what you know about the word so far: {blanks_list}"
-                    )
-print("Thanks for playing!")
-print("Congratulations! You've guessed the mystery word!")
-print("Bummer!! You ran out of guesses!")"""
