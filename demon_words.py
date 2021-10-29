@@ -53,8 +53,8 @@ def demon_word_game(file):
     user_quit = False
 
     difficulty = difficulty_selection()
+    blanks_list = list(generate_word_length(difficulty))
 
-    blanks_list = list(generate_word_length(word_list, difficulty))
     guessed_letter_list = []
     incorrect_correct_guess_counter = 0
 
@@ -86,41 +86,30 @@ def demon_word_game(file):
 
 # --------------------------------------------------------------------------------------------------------------------------------
 
-            """elif guess in mystery_word_letter_list:
-                if guess not in guessed_letter_list:
-                    for idx in range(len(mystery_word_letter_list)):
-                        if mystery_word_letter_list[idx] == guess:
-                            blanks_list[idx] = guess
-                    guessed_letter_list.append(guess)
-                    # The user gets information on how their guessing is going.
-                    print(
-                        f"Nice Work! You guessed correctly! Here's what you know about the word so far: {blanks_list}"
-                    )
-                    print(f"Here are the letters you've so far: {guessed_letter_list}")
-                else:
-                    print("I'm sorry, you've guessed that letter already.")
             else:
-                if guess not in guessed_letter_list:
+                word_list = guess_received_reference_segmented(guess, word_list, len(blanks_list))
+                for i in range(len(word_list[0])):
+                    if word_list[0][i] == guess:
+                        blanks_list[i] = guess
+                
+                print(word_list)
+                
+                if guess not in word_list[0]:
                     guessed_letter_list.append(guess)
+                    incorrect_correct_guess_counter += 1
                     print(
                         f"Shucks! Not in the word! Here's what you know about the word so far: {blanks_list}"
                     )
-                    print(
-                        f"Here are the letters you've guessed so far: {guessed_letter_list}"
-                    )
-                    incorrect_correct_guess_counter += 1
+                    print(f"Here are the letters you've so far: {guessed_letter_list}")
                     print(
                         f"You have {8 - incorrect_correct_guess_counter} guesses left."
                     )
                 else:
-                    print("I'm sorry, you've guessed that letter already.")
-    # These are the scenarios that take place when the game ends.
-    if user_quit == True:
-        print("Thanks for playing!")
-    elif "_" not in blanks_list:
-        print("Congratulations! You've guessed the mystery word!")
-    else:
-        print("Bummer!! You ran out of guesses!")"""
+                    guessed_letter_list.append(guess)
+                    print(
+                        f"Nice Work! You guessed correctly! Here's what you know about the word so far: {blanks_list}"
+                        )
+                    print(f"Here are the letters you've so far: {guessed_letter_list}")
 
 #--------------------------------------------------------------------------------------------------------------------------
 
@@ -141,10 +130,9 @@ def difficulty_selection():
             return difficulty_selector
         else:
             print("I'm sorry, I didn't recognize that input.")
-            print("Please enter difficulty ('HARD', 'NORMAL', 'EASY') or 'QUIT'.")
 
 
-def generate_word_length(reference, difficulty):
+def generate_word_length(difficulty):
 
     """This function opens the text file, removes all punctuation, converts it
     to lowercase, creates a list where each word is an index, and selects a random
@@ -171,6 +159,41 @@ def generate_word_length(reference, difficulty):
             hard_list.append("_")    
         return hard_list
 
+def guess_received_reference_segmented(letter, reference, length):
+
+    """This function takes in the user's guess, breaks the reference into groups based
+    on the index position of the user's guess, and selects the largest of those groups as the
+    next point of reference."""
+
+    word_counter = 0
+    max_count = 0
+
+    new_reference_list = []
+
+    for i in range(length):
+        for word in reference:
+            if len(word) == length:
+                if word[i] == letter:
+                    word_counter += 1
+                if word_counter >= max_count:
+                    max_count = word_counter
+                    index_position = i
+        word_counter = 0
+
+    for word in reference:
+        if len(word) == length:
+            if letter not in word:
+                word_counter += 1
+            if word_counter >= max_count:
+                new_reference_list.append(word)
+            else:
+                for word in reference:
+                    if len(word) == length:
+                        if word[index_position] == letter:
+                            new_reference_list.append(word)
+    
+    return new_reference_list
+
 
 if __name__ == "__main__":
     import argparse
@@ -188,3 +211,17 @@ if __name__ == "__main__":
     else:
         print(f"{file} does not exist!")
         exit(1)
+
+"""print(
+                        f"Nice Work! You guessed correctly! Here's what you know about the word so far: {blanks_list}"
+                    )
+print(f"Here are the letters you've so far: {guessed_letter_list}")
+print(
+                        f"You have {8 - incorrect_correct_guess_counter} guesses left."
+                    )
+print(
+                        f"Shucks! Not in the word! Here's what you know about the word so far: {blanks_list}"
+                    )
+print("Thanks for playing!")
+print("Congratulations! You've guessed the mystery word!")
+print("Bummer!! You ran out of guesses!")"""
