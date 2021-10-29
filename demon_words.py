@@ -31,7 +31,7 @@ def demon_word_game(file):
         "WELCOME TO THE MYSTERY WORD GAME: DEMON EDITION! In this game, you will try to pin down the demon by guessing letters with the goal of completing a word!"
     )
     print("Correctly complete the word, and you will win!")
-    print("Your letter submissions will need to be in lowercase.")
+    print("Your letter submissions will need to be in lowercase. YOU MAY NEED TO GUESS THE SAME LETTER TWICE!")
     print("At any time, type QUIT to exit.")
 
     with open(file) as text:
@@ -84,27 +84,9 @@ def demon_word_game(file):
             # indices.
             if guess.isupper() == True:
                 print("Please submit a letter in lower-case.")
-
-# --------------------------------------------------------------------------------------------------------------------------------
-
             else:
                 length_list = guess_received_reference_segmented(guess, length_list, len(blanks_list))
-                sample = random.choice(length_list)
-
-                ##Need to remove words in the length list that don't match the pattern of the randomly selected sample.
-                
-                print(length_list)
-                print(sample)
-                if guess in sample:
-                    for i in range(len(blanks_list)):
-                        if sample[i] == guess:
-                            blanks_list[i] = guess
-                    guessed_letter_list.append(guess)
-                    print(
-                        f"Nice Work! You guessed correctly! Here's what you know about the word so far: {blanks_list}"
-                        )
-                    print(f"Here are the letters you've so far: {guessed_letter_list}")
-                else:
+                if length_list[-1] == len(blanks_list):
                     guessed_letter_list.append(guess)
                     incorrect_correct_guess_counter += 1
                     print(
@@ -114,8 +96,15 @@ def demon_word_game(file):
                     print(
                         f"You have {8 - incorrect_correct_guess_counter} guesses left."
                     )
-
-#--------------------------------------------------------------------------------------------------------------------------
+                    length_list.pop()
+                else:
+                    blanks_list[length_list[-1]] = guess
+                    guessed_letter_list.append(guess)
+                    print(
+                        f"Nice Work! You guessed correctly! Here's what you know about the word so far: {blanks_list}"
+                        )
+                    print(f"Here are the letters you've so far: {guessed_letter_list}")
+                    length_list.pop()
 
 
 def difficulty_selection():
@@ -181,9 +170,15 @@ def guess_received_reference_segmented(letter, reference, length):
             for i in range(length):
                 if word[i] == letter:
                     index_at_dictionary[i].append(word)
-    
-    return index_at_dictionary[max(index_at_dictionary, key = index_at_dictionary.get)]
 
+    
+    
+    result = index_at_dictionary[max(index_at_dictionary, key = index_at_dictionary.get)]
+    index_at_number = int(max(index_at_dictionary, key = index_at_dictionary.get))
+
+    result.append(index_at_number)
+
+    return result
 
 if __name__ == "__main__":
     import argparse
