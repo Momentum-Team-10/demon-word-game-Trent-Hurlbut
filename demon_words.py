@@ -110,16 +110,13 @@ def demon_word_game(file):
                 length_list = guess_received_reference_segmented(
                     guess, length_list, len(blanks_list)
                 )
-
                 # This checks to see if the list holding words not containing the letter was the longest, and
                 # therefor, an incorect guess.
                 if length_list[-1] == len(blanks_list):
                     guessed_letter_list.append(guess)
                     incorrect_correct_guess_counter += 1
                     print(
-                        
-                            "************************************************************************************************"
-                        
+                        "************************************************************************************************"
                     )
                     print(
                         f"Shucks! Not in the word! Here's what you know about the word so far: {blanks_list}"
@@ -129,9 +126,7 @@ def demon_word_game(file):
                         f"If you make {8 - incorrect_correct_guess_counter} more incorrect guesses, the word demon wins."
                     )
                     print(
-                        
-                            "************************************************************************************************"
-                        
+                        "************************************************************************************************"
                     )
                     length_list.pop()
                 else:
@@ -282,14 +277,27 @@ def guess_received_reference_segmented(letter, reference, length):
                 if word[i] == letter:
                     index_at_dictionary[i].append(word)
 
-    #'rank' is a variable which stores the value of the largest length of word families collected in the index_at_dictionary.
-    rank = max([value for value in index_at_dictionary])
+    #'word_families' is a list that contains each word family list, 'family_count' is a list that counts the length of each family.
+    # The word family with the longest length is then sorted for and returned as a list with where the guess appears, by index, in
+    # the word family's position (or the length of the word family if the largest family does not contain the letter).
 
+    word_families = []
+
+    for key in index_at_dictionary:
+        word_families.append(index_at_dictionary[key])
+
+    family_count = [len(i) for i in word_families]
+    max_count = max(family_count)
+    index_max = family_count.index(max_count)
+
+    if max_count == length:
+        word_families[length].append(length)
+        result = word_families[length]
+    else:
+        word_families[index_max].append(index_max)
+        result = word_families[index_max]
 
     # The key with the largest list, by length, is selected and its reference is appended to the end of the list for use later.
-    result = index_at_dictionary[rank]
-    result.append(rank)
-
     return result
 
 
