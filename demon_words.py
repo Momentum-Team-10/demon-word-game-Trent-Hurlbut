@@ -112,6 +112,7 @@ def demon_word_game(file):
                 )
                 # This checks to see if the list holding words not containing the letter was the longest, and
                 # therefor, an incorect guess.
+                print(length_list)
                 if length_list[-1] == len(blanks_list):
                     guessed_letter_list.append(guess)
                     incorrect_correct_guess_counter += 1
@@ -128,6 +129,7 @@ def demon_word_game(file):
                     print(
                         "************************************************************************************************"
                     )
+                    length_list.pop()
                     length_list.pop()
                 else:
 
@@ -150,6 +152,7 @@ def demon_word_game(file):
                                 "************************************************************************************************"
                             )
                             length_list.pop()
+                            length_list.pop()
                         else:
                             incorrect_correct_guess_counter += 1
                             print(
@@ -168,6 +171,7 @@ def demon_word_game(file):
                                 "************************************************************************************************"
                             )
                             length_list.pop()
+                            length_list.pop()
                     else:
                         blanks_list[length_list[-1]] = guess
                         guessed_letter_list.append(guess)
@@ -183,6 +187,7 @@ def demon_word_game(file):
                         print(
                             "************************************************************************************************"
                         )
+                        length_list.pop()
                         length_list.pop()
 
     # The following are the game-end conditions.
@@ -290,10 +295,12 @@ def guess_received_reference_segmented(letter, reference, length):
     max_count = max(family_count)
     index_max = family_count.index(max_count)
 
-    if max_count == length:
+    if index_max == length:
+        word_families[length].append(max_count)
         word_families[length].append(length)
         result = word_families[length]
     else:
+        word_families[index_max].append(max_count)
         word_families[index_max].append(index_max)
         result = word_families[index_max]
 
