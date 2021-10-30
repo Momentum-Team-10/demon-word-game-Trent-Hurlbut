@@ -282,14 +282,12 @@ def guess_received_reference_segmented(letter, reference, length):
                 if word[i] == letter:
                     index_at_dictionary[i].append(word)
 
+    #'rank' is a variable which stores the value of the largest length of word families collected in the index_at_dictionary.
     rank = max([value for value in index_at_dictionary])
 
-    # THE SORT FUNCTION IS NOT WORKING. NEED TO CREATE A NEW LIST TO STORE LENGTHS OF KEYS IN DICTIONARY AND THEN
-    # USE THAT FOR REFERENCE.
 
     # The key with the largest list, by length, is selected and its reference is appended to the end of the list for use later.
     result = index_at_dictionary[rank]
-
     result.append(rank)
 
     return result
