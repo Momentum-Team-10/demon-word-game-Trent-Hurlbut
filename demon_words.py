@@ -96,14 +96,14 @@ def demon_word_game(file):
             or guess in string.punctuation
             or guess in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
         ):
-            print(("*********************************************"))
+            print("**********************************************")
             print("Ooooooh... I'm so sorry that was not a letter.")
-            print(("*********************************************"))
+            print("**********************************************")
         else:
             if guess.isupper() == True:
-                print(("*************************************"))
+                print("*************************************")
                 print("Please submit a letter in lower-case.")
-                print(("*************************************"))
+                print("*************************************")
             else:
                 # If the user submits a lower-case letter, the guess_received_reference_segmented function runs.
                 # Length_list is updated with each new submission.
@@ -117,9 +117,9 @@ def demon_word_game(file):
                     guessed_letter_list.append(guess)
                     incorrect_correct_guess_counter += 1
                     print(
-                        (
+                        
                             "************************************************************************************************"
-                        )
+                        
                     )
                     print(
                         f"Shucks! Not in the word! Here's what you know about the word so far: {blanks_list}"
@@ -129,9 +129,9 @@ def demon_word_game(file):
                         f"If you make {8 - incorrect_correct_guess_counter} more incorrect guesses, the word demon wins."
                     )
                     print(
-                        (
+                        
                             "************************************************************************************************"
-                        )
+                        
                     )
                     length_list.pop()
                 else:
@@ -193,14 +193,21 @@ def demon_word_game(file):
     # The following are the game-end conditions.
     if user_quit == True:
         print("Thanks for playing!")
+        print("**********************************************************")
+        print("Credits: ASCII Demon Art by Deelkar via ASCII Art Archive.")
+        print("**********************************************************")
     elif "_" not in blanks_list:
-        print(("*******************************************************"))
+        print("**********************************************************")
         print("Congratulations! You've trapped the word demon!")
-        print(("*******************************************************"))
+        print("**********************************************************")
+        print("Credits: ASCII Demon Art by Deelkar via ASCII Art Archive.")
+        print("**********************************************************")
     else:
-        print(("*******************************************************"))
+        print("**********************************************************")
         print("Bummer!! You ran out of guesses!")
-        print(("*******************************************************"))
+        print("**********************************************************")
+        print("Credits: ASCII Demon Art by Deelkar via ASCII Art Archive.")
+        print("**********************************************************")
 
 
 def difficulty_selection():
@@ -229,6 +236,9 @@ def generate_word_length(difficulty):
 
     if difficulty == "QUIT":
         print("Thanks for playing!")
+        print("**********************************************************")
+        print("Credits: ASCII Demon Art by Deelkar via ASCII Art Archive.")
+        print("**********************************************************")
         quit()
     elif difficulty == "EASY":
         easy_list = []
@@ -272,11 +282,15 @@ def guess_received_reference_segmented(letter, reference, length):
                 if word[i] == letter:
                     index_at_dictionary[i].append(word)
 
-    # The key with the largest list, by length, is selected and its reference is appended to the end of the list for use later.
-    result = index_at_dictionary[max(index_at_dictionary, key=index_at_dictionary.get)]
-    index_at_number = int(max(index_at_dictionary, key=index_at_dictionary.get))
+    rank = max([value for value in index_at_dictionary])
 
-    result.append(index_at_number)
+    # THE SORT FUNCTION IS NOT WORKING. NEED TO CREATE A NEW LIST TO STORE LENGTHS OF KEYS IN DICTIONARY AND THEN
+    # USE THAT FOR REFERENCE.
+
+    # The key with the largest list, by length, is selected and its reference is appended to the end of the list for use later.
+    result = index_at_dictionary[rank]
+
+    result.append(rank)
 
     return result
 
