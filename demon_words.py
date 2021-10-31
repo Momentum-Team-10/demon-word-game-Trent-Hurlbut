@@ -125,7 +125,9 @@ def demon_word_game(file):
                         print(
                             f"Shucks! Not in the word! Here's what you know about the word so far: {blanks_list}"
                         )
-                        print(f"Here are the letters you've so far: {guessed_letter_list}")
+                        print(
+                            f"Here are the letters you've so far: {guessed_letter_list}"
+                        )
                         print(
                             f"If you make {8 - incorrect_correct_guess_counter} more incorrect guesses, the word demon wins."
                         )
@@ -186,19 +188,19 @@ def demon_word_game(file):
                             )
                             print(
                                 f"Here are the letters you've so far: {guessed_letter_list}"
-                            )   
+                            )
                             print(
                                 "************************************************************************************************"
                             )
                             length_list.pop()
                             length_list.pop()
 
-                else:   
+                else:
                     # If the user submits a lower-case letter, the guess_received_reference_segmented function runs.
                     # Length_list is updated with each new submission.
                     length_list = guess_received_reference_segmented(
                         guess, length_list, len(blanks_list)
-                        )
+                    )
                     # This checks to see if the list holding words not containing the letter was the longest, and
                     # therefor, an incorect guess.
                     print(length_list)
@@ -211,7 +213,9 @@ def demon_word_game(file):
                         print(
                             f"Shucks! Not in the word! Here's what you know about the word so far: {blanks_list}"
                         )
-                        print(f"Here are the letters you've so far: {guessed_letter_list}")
+                        print(
+                            f"Here are the letters you've so far: {guessed_letter_list}"
+                        )
                         print(
                             f"If you make {8 - incorrect_correct_guess_counter} more incorrect guesses, the word demon wins."
                         )
@@ -346,7 +350,7 @@ def generate_word_length(difficulty):
         return hard_list
 
 
-def guess_received_reference_segmented(letter, reference, length, indices_revealed = []):
+def guess_received_reference_segmented(letter, reference, length, indices_revealed=[]):
 
     """This function takes in the user's guess, breaks the reference into groups based
     on the index position of the user's guess, and selects the largest of those groups as the
